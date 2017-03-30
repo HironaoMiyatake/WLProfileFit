@@ -3,7 +3,6 @@ import numpy as np
 import scipy.interpolate as spInterpolate
 import NFW
 import emcee
-from emcee.utils import MPIPool
 
 # input file
 filename = sys.argv[1]
@@ -51,10 +50,16 @@ def lnprob(theta, x, y, yerr):
     lpb = lp + lnlike(theta, x, y, yerr)
     return lpb
 
-pool = MPIPool()
-if not pool.is_master():
-    pool.wait()
-    sys.exit(0)
+try:
+    from emcee.utils import MPIPool
+    pool = MPIPool()
+    if not pool.is_master():
+        pool.wait()
+        sys.exit(0)
+except:
+    from multiprocessing import Pool, cpu_count
+    n_processes = cpu_count()
+    pool = Pool(processes=n_processes)
 
 # read data
 data = np.genfromtxt(filename, names = True)
