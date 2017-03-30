@@ -15,4 +15,11 @@ python show_chains_NFW.py fit_NFW_test.dat/chains.npy
 ```bash
 python cutout_burn_in.py fit_NFW_test.dat 100
 ```
-.
+. In this case, the first 100 chains will be removed, and the output file is created at `fit_NFW_test.dat/chains.burnin100.npy`. You can then plot the contour by
+```bash
+python plot_triangle_NFW.py fit_NFW_test.dat/chains.burnin100.npy 
+```
+, and the fitting curve with the data points by
+```bash
+python plot_fit_NFW.py fit_NFW_test.dat/chains.burnin100.npy 
+```
