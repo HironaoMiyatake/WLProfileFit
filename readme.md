@@ -1,9 +1,13 @@
-This is a code to fit a weak lesing profile. Currently only the NFW profile is supported.
+This is a code to fit a weak lensing profile. Currently only the NFW profile is supported.
 
-You need scipy, emcee, and mpiexec to run this code.
+You need scipy, and emcee to run this code. MPI support requires mpiexec and mpi4py.
 
 # How to run this code?
 You can learn by running the following test.
+```bash
+python mcmc_NFW.py test.dat
+```
+or (if you have MPI)
 ```bash
 mpiexec -n 2 python mcmc_NFW.py test.dat
 ```
@@ -19,9 +23,9 @@ python cutout_burn_in.py fit_NFW_test.dat 100
 ```
 . In this case, the first 100 chains will be removed, and the output file is created at `fit_NFW_test.dat/chains.burnin100.npy`. You can then plot the contour by
 ```bash
-python plot_triangle_NFW.py fit_NFW_test.dat/chains.burnin100.npy 
+python plot_triangle_NFW.py fit_NFW_test.dat/chains.burnin100.npy
 ```
 , and the fitting curve with the data points by
 ```bash
-python plot_fit_NFW.py fit_NFW_test.dat/chains.burnin100.npy 
+python plot_fit_NFW.py fit_NFW_test.dat/chains.burnin100.npy
 ```
