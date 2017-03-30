@@ -24,7 +24,6 @@ class NFW:
         self.mass_base = self.uni.rho_m(0.)/M_sun * (cosmology.Mpc*10**5)**3 
         if cMRelation is None:
             self.cMRelation = None
-            print "Do not use c-M relation"
         else:
             if cMRelation[0] == "RM04":
                 self.cMRelation = cMRelation[0]

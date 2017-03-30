@@ -2,7 +2,6 @@ import os, sys
 import numpy as np
 import scipy.interpolate as spInterpolate
 import NFW
-import offcenteredNFW
 import emcee
 from emcee.utils import MPIPool
 
@@ -26,7 +25,7 @@ init_c = 4.3
 
 # main body
 # definition of model
-nfw = NFW.NFW(200, 0.315, 0.685)
+nfw = NFW.NFW(200, 0.3, 0.7)
 def getModel(x, M, c):
     return nfw.deltaSigma(x, M*10**14, c)
 
@@ -65,7 +64,7 @@ y = data["dSigma"][sel]
 yerr = data["dSigma_err"][sel]
 
 # setup output directory
-dir = "%s_%s_%s" % (dir_prefix, filename.split("/")[-2], filename.split("/")[-1])
+dir = "%s_%s" % (dir_prefix, filename)
 print "output directory: %s" % dir
 if os.path.exists(dir) == False:
     os.mkdir(dir)

@@ -1,1 +1,4 @@
-This is a fitting code of weak lesing profile. Currently only the NFW profile is supported.
+This is a code to fit a weak lesing profile. Currently only the NFW profile is supported.
+
+You need scipy, emcee, and mpiexec to run this code.
+

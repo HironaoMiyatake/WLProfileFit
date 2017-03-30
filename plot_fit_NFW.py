@@ -2,7 +2,6 @@ import os, sys
 import numpy as np
 import scipy.interpolate as spInterpolate
 import NFW
-import offcenteredNFW
 import matplotlib.pyplot as plt
 import re
 
