@@ -22,25 +22,6 @@ class NFW:
                                            H0 = 100.
                                            )
         self.mass_base = self.uni.rho_m(0.)/M_sun * (cosmology.Mpc*10**5)**3 
-        if cMRelation is None:
-            self.cMRelation = None
-        else:
-            if cMRelation[0] == "RM04":
-                self.cMRelation = cMRelation[0]
-                import sys
-                sys.path.append("../model")
-                import extendedCosmology
-                import Mandelbaum04 as M04
-                root = cMRelation[1]
-                sigma8 = cMRelation[2]
-                z = cMRelation[3]
-                e = extendedCosmology.extendedCosmology("../model/%s_params.ini" % root, "../model/%s_matterpower.dat" % root, sigma8 = sigma8)
-                self.Mnl = M04.Mnl(e, z)
-                print "Use c-M relation in RM04, Mnl: %s[Msun/h]" % self.Mnl
-            elif cMRelation[0] == "RM08":
-                self.cMRelation = cMRelation[0]
-                self.z = cMRelation[1]
-                print "Use c-M relation in RM08"
 
     def r_s(self, M_delta, c_delta):
         return np.power(3*M_delta/(4*np.pi*self.mass_base*self.delta),1./3.)/c_delta
@@ -63,21 +44,15 @@ class NFW:
 
     # lensing profile
     def deltaSigma(self, r, M_delta, c_delta):
-        if self.cMRelation == None:
-            _c_delta = c_delta
-        elif self.cMRelation == "RM04":
-            _c_delta = self.calcCFromCMrelationRM04(M_delta)
-        elif self.cMRelation == "RM08":
-            _c_delta = self.calcCFromCMrelationRM08(M_delta)
 
-        r_s = self.r_s(M_delta, _c_delta)
+        r_s = self.r_s(M_delta, c_delta)
 
         x = r/r_s
         x_ltone = x[x < 1]
         x_eqone = x[np.equal(x, 1.)]
         x_gtone = x[x > 1]
         
-        fact = r_s*self.rho_s(M_delta, _c_delta)
+        fact = r_s*self.rho_s(M_delta, c_delta)
 
         deltaSigma_ltone = fact * (8.*np.arctanh(np.sqrt((1.-x_ltone)/(1.+x_ltone)))/(x_ltone**2*np.sqrt(1.-x_ltone**2))
                               +4.*np.log(x_ltone/2.)/x_ltone**2
