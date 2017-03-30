@@ -1,6 +1,6 @@
 This is a code to fit a weak lensing profile. Currently only the NFW profile is supported.
 
-You need scipy, and emcee to run this code. MPI support requires mpiexec and mpi4py.
+You need scipy, and emcee to run this code; corner for plotting. MPI support requires mpiexec and mpi4py.
 
 # How to run this code?
 You can learn by running the following test.
