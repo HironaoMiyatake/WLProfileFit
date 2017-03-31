@@ -29,3 +29,6 @@ python plot_triangle_NFW.py fit_NFW_test.dat/chains.burnin100.npy
 ```bash
 python plot_fit_NFW.py fit_NFW_test.dat/chains.burnin100.npy
 ```
+.
+
+You can calculate shape noise by `calcShapeNoise.py`. Actually the error in `test.py` was calculated using `generateTestData.py` whihc uses methods in `calcShapeNoise.py`.
