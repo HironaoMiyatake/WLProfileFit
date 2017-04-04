@@ -4,8 +4,8 @@ import number_density
 import NFW
 
 def calcSigmaCr(uni, zl, chi_zs):
-    sigma_cr = uni.c**2/(4*np.pi*uni.G) * cosmology.Mpc / uni.DA(zl) / (uni.Sk(chi_zs-uni.chi(zl))/uni.Sk(chi_zs)) * 10**3 / NFW.M_sun # critical surface mass density [M_sun/Mpc^2]
-    return sigma_cr/10**12
+    sigma_cr = uni.c**2/(4*np.pi*uni.G) * cosmology.Mpc / uni.DA(zl) / (uni.Sk(chi_zs-uni.chi(zl))/uni.Sk(chi_zs)) * 10**3 / NFW.M_sun / (1.+zl)**2/10**12 # critical surface mass density [M_sun/ comoving pc^2]
+    return sigma_cr
 
 def calculateDSigmaErr(uni, l_r_edges, zl, zm = 1., n_tot = 20., sigma_e = 0.25):
     l_zs, dz = number_density.get_zs_dz()
@@ -19,8 +19,10 @@ def calculateDSigmaErr(uni, l_r_edges, zl, zm = 1., n_tot = 20., sigma_e = 0.25)
     l_zs, dz = number_density.get_zs_dz()
     l_chizs = l_chizs[l_zs > zl]
     l_zs = l_zs[l_zs > zl]
+    print "lens redshift:", zl
     for i in range(len(l_r_edges) - 1):
-        area = (l_r_edges[i+1]**2 - l_r_edges[i]**2)*np.pi*(1./uni.DA(zl)[0]/np.pi*180.*60.)**2
+        a = 1./(1.+zl)
+        area = (l_r_edges[i+1]**2 - l_r_edges[i]**2)*np.pi*(a/uni.DA(zl)[0]/np.pi*180.*60.)**2 # r is in comoving
         N = area * n_s
         l_sigma_cr = calcSigmaCr(uni, zl, l_chizs)
         l_n_s = n_tot*number_density.calcDpdz(l_zs, z0)
